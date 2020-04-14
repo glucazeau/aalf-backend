@@ -2,9 +2,8 @@ package fr.croixrouge.paris.aalf.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.croixrouge.paris.aalf.user.UserEntity;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.impl.compression.GzipCompressionCodec;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Key;
 import java.util.ArrayList;
 
 import static io.jsonwebtoken.SignatureAlgorithm.HS256;
@@ -56,13 +56,16 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         final Claims claims = Jwts
                 .claims()
-                .setIssuer("AALF");
+                .setIssuer("AALF")
+                .setSubject(username);
+
+        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
         String token =  Jwts
                 .builder()
                 .setClaims(claims)
-                .signWith(HS256, "mySecretKey")
-                .compressWith(new GzipCompressionCodec())
+                .signWith(key, HS256)
+                .compressWith(CompressionCodecs.GZIP)
                 .compact();
         res.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
     }
