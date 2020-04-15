@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -37,6 +38,36 @@ public class UserEntity implements UserDetails {
     @Column(name = "first_name")
     private String firstName;
 
+    @Column(name = "cellphone_number")
+    private String phoneNumber;
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    @Column(name = "locked")
+    private boolean locked;
+
+    @Column(name = "expired")
+    private boolean expired;
+
+    @Column(name = "expires_at")
+    private Date expiresAt;
+
+    @Column(name = "credentials_expired")
+    private boolean credentialsExpired;
+
+    @Column(name = "credentials_expire_at")
+    private Date credentialsExpiresAt;
+
+    @Column(name = "confirmation_token")
+    private String confirmationToken;
+
+    @Column(name = "password_requested_at")
+    private Date passwordRequestAt;
+
+    @Column(name = "registration_date")
+    private Date registrationDate;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -49,7 +80,7 @@ public class UserEntity implements UserDetails {
         return password;
     }
 
-    public void setPassword() {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -61,23 +92,23 @@ public class UserEntity implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return !expired;
     }
 
     @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return !locked;
     }
 
     @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return !credentialsExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }
