@@ -1,12 +1,9 @@
 package fr.croixrouge.paris.aalf.user;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import static java.util.Collections.emptyList;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -22,6 +19,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (userEntity == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new User(userEntity.getUsername(), userEntity.getPassword(), emptyList());
+        return userEntity;
     }
 }

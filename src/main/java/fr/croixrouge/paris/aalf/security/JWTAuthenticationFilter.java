@@ -25,7 +25,6 @@ import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 @Log
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
-    private TokenService tokenService;
 
     public JWTAuthenticationFilter(final AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
