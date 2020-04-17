@@ -8,8 +8,8 @@ import javax.persistence.*;
 @Data
 public class Language {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "name")
     private String name;

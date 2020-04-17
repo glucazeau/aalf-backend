@@ -2,16 +2,15 @@ package fr.croixrouge.paris.aalf.classlevel;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="class_level")
 @Data
 public class ClassLevel {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     private String label;
 

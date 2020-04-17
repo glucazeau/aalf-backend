@@ -15,8 +15,8 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 public class OrganizationBranch {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column
     String name;

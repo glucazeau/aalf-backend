@@ -2,7 +2,6 @@ package fr.croixrouge.paris.aalf.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.croixrouge.paris.aalf.role.Role;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +18,8 @@ import java.util.List;
 @Data
 public class UserEntity implements UserDetails {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "email", insertable = false, updatable = false)
     private String username;
@@ -65,9 +65,6 @@ public class UserEntity implements UserDetails {
 
     @Column(name = "registration_date")
     private Date registrationDate;
-
-    @OneToMany(mappedBy = "users")
-    private List<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
