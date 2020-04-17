@@ -2,9 +2,8 @@ package fr.croixrouge.paris.aalf.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.croixrouge.paris.aalf.user.UserEntity;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
 import lombok.extern.java.Log;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,26 +12,25 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.Key;
 import java.util.ArrayList;
 
-import static io.jsonwebtoken.SignatureAlgorithm.HS256;
+import static fr.croixrouge.paris.aalf.security.JwtValues.HEADER_PREFIX;
 
 @Log
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
+    private JwtTokenService tokenService;
 
-    public JWTAuthenticationFilter(final AuthenticationManager authenticationManager) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, ApplicationContext context) {
         this.authenticationManager = authenticationManager;
+        this.tokenService = context.getBean(JwtTokenService.class);
     }
 
     @Override
-    public Authentication attemptAuthentication(final HttpServletRequest req, HttpServletResponse res)
-            throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         try {
             UserEntity creds = new ObjectMapper()
                     .readValue(req.getInputStream(), UserEntity.class);
@@ -49,23 +47,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
-            Authentication auth) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain, Authentication auth) {
         String username = ((UserEntity)auth.getPrincipal()).getUsername();
-
-        final Claims claims = Jwts
-                .claims()
-                .setIssuer("AALF")
-                .setSubject(username);
-
-        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
-        String token =  Jwts
-                .builder()
-                .setClaims(claims)
-                .signWith(key, HS256)
-                .compressWith(CompressionCodecs.GZIP)
-                .compact();
-        res.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+        String token = tokenService.newToken(username);
+        res.addHeader(HttpHeaders.AUTHORIZATION, HEADER_PREFIX + token);
     }
 }

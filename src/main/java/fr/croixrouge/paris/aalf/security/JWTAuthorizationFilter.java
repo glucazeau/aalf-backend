@@ -1,8 +1,6 @@
 package fr.croixrouge.paris.aalf.security;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,13 +12,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.Key;
 import java.util.ArrayList;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+    private JwtTokenService tokenService;
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager) {
+    public JWTAuthorizationFilter(AuthenticationManager authManager, ApplicationContext context) {
         super(authManager);
+        this.tokenService = context.getBean(JwtTokenService.class);
     }
 
     @Override
@@ -43,12 +42,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (token != null) {
-
-            Jwts.parserBuilder();
-
-            Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-            String username = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token.replace("Bearer ", "")).getBody().getSubject();
-
+            String username = tokenService.getUsername(token);
             if (username != null) {
                 return new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
             }
