@@ -13,7 +13,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+
     - name: Build with Gradle
       run: ./gradlew build sonarqube -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
