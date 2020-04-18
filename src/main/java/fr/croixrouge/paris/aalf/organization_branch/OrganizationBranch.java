@@ -1,10 +1,12 @@
 package fr.croixrouge.paris.aalf.organization_branch;
 
+import fr.croixrouge.paris.aalf.classroom.ClassRoom;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.Set;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -35,4 +37,7 @@ public class OrganizationBranch {
 
     @Column(name = "email_address")
     String emailAddress;
+
+    @OneToMany(mappedBy = "organizationBranch")
+    Set<ClassRoom> classRooms;
 }
