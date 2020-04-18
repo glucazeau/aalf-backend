@@ -1,6 +1,7 @@
 package fr.croixrouge.paris.aalf.organization_branch;
 
 import fr.croixrouge.paris.aalf.classroom.ClassRoom;
+import fr.croixrouge.paris.aalf.semester.Semester;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -40,4 +41,7 @@ public class OrganizationBranch {
 
     @OneToMany(mappedBy = "organizationBranch")
     Set<ClassRoom> classRooms;
+
+    @OneToMany(mappedBy = "organizationBranch")
+    Set<Semester> semesters;
 }
