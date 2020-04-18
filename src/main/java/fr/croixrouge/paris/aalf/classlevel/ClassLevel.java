@@ -1,20 +1,32 @@
 package fr.croixrouge.paris.aalf.classlevel;
 
+import fr.croixrouge.paris.aalf.Course;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.Set;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Table(name="class_level")
 @Data
+@FieldDefaults(level = PRIVATE)
 public class ClassLevel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    Integer id;
 
-    private String label;
+    @Column
+    String label;
 
-    private String htmlColorCode;
+    @Column
+    String htmlColorCode;
 
-    private Integer position;
+    @Column
+    Integer position;
+
+    @OneToMany(mappedBy = "classLevel")
+    Set<Course> courses;
 }
