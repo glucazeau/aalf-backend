@@ -1,4 +1,4 @@
-package fr.croixrouge.paris.aalf;
+package fr.croixrouge.paris.aalf.course;
 
 import fr.croixrouge.paris.aalf.classlevel.ClassLevel;
 import fr.croixrouge.paris.aalf.classroom.ClassRoom;

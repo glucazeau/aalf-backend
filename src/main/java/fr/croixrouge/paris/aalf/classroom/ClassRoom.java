@@ -1,6 +1,6 @@
 package fr.croixrouge.paris.aalf.classroom;
 
-import fr.croixrouge.paris.aalf.Course;
+import fr.croixrouge.paris.aalf.course.Course;
 import fr.croixrouge.paris.aalf.organization_branch.OrganizationBranch;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
