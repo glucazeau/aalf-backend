@@ -1,11 +1,13 @@
 package fr.croixrouge.paris.aalf.semester;
 
 import fr.croixrouge.paris.aalf.organization_branch.OrganizationBranch;
+import fr.croixrouge.paris.aalf.registration_slot.RegistrationSlot;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -27,4 +29,7 @@ public class Semester {
     @ManyToOne
     @JoinColumn(name = "fk_organization_branch")
     OrganizationBranch organizationBranch;
+
+    @OneToMany(mappedBy = "semester")
+    Set<RegistrationSlot> registrationSlots;
 }
