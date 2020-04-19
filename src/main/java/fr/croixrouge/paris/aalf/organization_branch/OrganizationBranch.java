@@ -1,15 +1,14 @@
 package fr.croixrouge.paris.aalf.organization_branch;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import fr.croixrouge.paris.aalf.classroom.ClassRoom;
 import fr.croixrouge.paris.aalf.semester.Semester;
+import java.util.Set;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-
-import javax.persistence.*;
-import java.util.Set;
-
-import static lombok.AccessLevel.PRIVATE;
 
 @Entity
 @Table(name = "organization_branch")
@@ -17,31 +16,31 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE)
 @NoArgsConstructor
 public class OrganizationBranch {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    @Column
-    String name;
+  @Column
+  String name;
 
-    @Column
-    String address;
+  @Column
+  String address;
 
-    @Column(name = "president_name")
-    String presidentName;
+  @Column(name = "president_name")
+  String presidentName;
 
-    @Column(name = "phone_number")
-    String phoneNumber;
+  @Column(name = "phone_number")
+  String phoneNumber;
 
-    @Column(name = "fax_number")
-    String faxNumber;
+  @Column(name = "fax_number")
+  String faxNumber;
 
-    @Column(name = "email_address")
-    String emailAddress;
+  @Column(name = "email_address")
+  String emailAddress;
 
-    @OneToMany(mappedBy = "organizationBranch")
-    Set<ClassRoom> classRooms;
+  @OneToMany(mappedBy = "organizationBranch")
+  Set<ClassRoom> classRooms;
 
-    @OneToMany(mappedBy = "organizationBranch")
-    Set<Semester> semesters;
+  @OneToMany(mappedBy = "organizationBranch")
+  Set<Semester> semesters;
 }

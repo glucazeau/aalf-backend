@@ -4,6 +4,9 @@ import fr.croixrouge.paris.aalf.organization_branch.OrganizationBranch;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(collectionResourceRel = "registrationSlots", path = "registrationSlots")
-public interface RegistrationSlotRepository extends CrudRepository<OrganizationBranch, Integer> {
-}
+@RepositoryRestResource(
+  collectionResourceRel = "registrationSlots",
+  path = "registrationSlots"
+)
+public interface RegistrationSlotRepository
+  extends CrudRepository<OrganizationBranch, Integer> {}

@@ -2,6 +2,10 @@
 ## Development
 Use [git-flow](http://danielkummer.github.io/git-flow-cheatsheet/index.fr_FR.html)
 
+### Formatting
+Uses [prettier-java](https://github.com/jhipster/prettier-java) as a pre-commit hook.
+Run `npm install` to enable it.
+
 ## Build and run
 `./gradlew bootRun`
 
