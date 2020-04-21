@@ -2,6 +2,7 @@ package fr.croixrouge.paris.aalf.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.croixrouge.paris.aalf.role.Role;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -18,57 +19,61 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class UserEntity implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  Integer id;
 
   @Column(name = "email", insertable = false, updatable = false)
-  private String username;
+  String username;
 
   @Column(name = "email")
-  private String emailAddress;
+  String emailAddress;
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-  private String password;
+  String password;
 
   @Column(name = "last_name")
-  private String lastName;
+  String lastName;
 
   @Column(name = "first_name")
-  private String firstName;
+  String firstName;
 
   @Column(name = "cellphone_number")
-  private String phoneNumber;
+  String phoneNumber;
 
   @Column(name = "enabled")
-  private boolean enabled;
+  boolean enabled;
 
   @Column(name = "locked")
-  private boolean locked;
+  boolean locked;
 
   @Column(name = "expired")
-  private boolean expired;
+  boolean expired;
 
   @Column(name = "expires_at")
-  private Date expiresAt;
+  Date expiresAt;
 
   @Column(name = "credentials_expired")
-  private boolean credentialsExpired;
+  boolean credentialsExpired;
 
   @Column(name = "credentials_expire_at")
-  private Date credentialsExpiresAt;
+  Date credentialsExpiresAt;
 
   @Column(name = "confirmation_token")
-  private String confirmationToken;
+  String confirmationToken;
 
   @Column(name = "password_requested_at")
-  private Date passwordRequestAt;
+  Date passwordRequestAt;
 
   @Column(name = "registration_date")
-  private Date registrationDate;
+  Date registrationDate;
+
+  @ManyToOne
+  @JoinColumn(name = "fk_role_id")
+  Role role;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     List<GrantedAuthority> authorities = new ArrayList<>();
-    authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+    authorities.add(new SimpleGrantedAuthority(role.getValue()));
     return authorities;
   }
 

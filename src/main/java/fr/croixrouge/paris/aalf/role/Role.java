@@ -9,11 +9,11 @@ import lombok.Data;
 public class Role {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  Integer id;
 
   @Column(name = "label")
-  private String label;
+  String label;
 
   @Column(name = "role")
-  private String value;
+  String value;
 }
